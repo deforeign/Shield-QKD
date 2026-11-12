@@ -1,0 +1,18 @@
+{
+  "model_type": "random_forest",
+  "best_params": {
+    "max_depth": 20,
+    "n_estimators": 300
+  },
+  "n_features": 63,
+  "class_labels": {
+    "0": "Normal",
+    "1": "Intercept-Resend",
+    "2": "PNS",
+    "3": "Beam-Splitting",
+    "4": "Time-Shift",
+    "5": "Trojan-Horse",
+    "6": "Quantum-Cloning",
+    "7": "Fake-State"
+  }
+}

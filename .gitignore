@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.claude/
+reports/
+
+.env
+.env.*
+!.env.example
+
+*.py[cod]
+*$py.class
+
+results/ablation_log.txt
+results/training_err.txt
+results/training_log.txt

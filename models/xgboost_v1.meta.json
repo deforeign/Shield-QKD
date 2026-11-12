@@ -1,0 +1,20 @@
+{
+  "model_type": "xgboost",
+  "best_params": {
+    "learning_rate": 0.05,
+    "max_depth": 6,
+    "n_estimators": 100,
+    "subsample": 0.8
+  },
+  "n_features": 63,
+  "class_labels": {
+    "0": "Normal",
+    "1": "Intercept-Resend",
+    "2": "PNS",
+    "3": "Beam-Splitting",
+    "4": "Time-Shift",
+    "5": "Trojan-Horse",
+    "6": "Quantum-Cloning",
+    "7": "Fake-State"
+  }
+}
