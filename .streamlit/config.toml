@@ -1,0 +1,22 @@
+# ShieldQKD dashboard theme - "optical bench" console.
+# Green / amber / red are reserved for circuit-breaker verdicts; the two
+# measurement bases are polariser blue and violet.
+[theme]
+base = "dark"
+primaryColor = "#7FB3FF"
+backgroundColor = "#151C2F"
+secondaryBackgroundColor = "#1E2740"
+textColor = "#E6EAF4"
+linkColor = "#7FB3FF"
+borderColor = "#2E3A5C"
+showWidgetBorder = true
+baseRadius = "6px"
+font = "IBM Plex Sans:https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+headingFont = "IBM Plex Sans Condensed:https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap"
+
+[theme.sidebar]
+backgroundColor = "#11182A"
+secondaryBackgroundColor = "#1E2740"
+
+[client]
+toolbarMode = "minimal"

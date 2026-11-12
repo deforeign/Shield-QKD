@@ -7,6 +7,7 @@ import os
 import pandas as pd
 import plotly.graph_objects as go
 
+from dashboard import theme as T
 from dashboard.components.qber_live_chart import qber_figure
 from dashboard.components.shap_waterfall import probability_figure
 from security.forensics import list_reports
@@ -32,18 +33,23 @@ def _summary_rows(paths):
 def render_forensics(st):
     paths = list_reports()
     if not paths:
-        st.info("No forensics reports yet - run a session in the Live Demo tab.")
+        st.markdown('<div class="sq-empty"><h3>No reports yet</h3>Every session writes a report here. '
+                    'Run one from the sidebar to create the first.</div>', unsafe_allow_html=True)
         return
     rows = _summary_rows(paths)
     df = pd.DataFrame(rows)
     c1, c2 = st.columns([1, 1])
-    decisions = c1.multiselect("Filter decisions", sorted(df["decision"].unique()),
+    decisions = c1.multiselect("Show decisions", sorted(df["decision"].unique()),
                                default=sorted(df["decision"].unique()))
-    only_attacks = c2.checkbox("Only sessions flagged as attacks", value=False)
+    only_attacks = c2.checkbox("Only sessions where an attack was found", value=False)
     view = df[df["decision"].isin(decisions)]
     if only_attacks:
         view = view[view["decision"].isin(["ABORT_ATTACK", "WARN", "ABORT_MITM"])]
-    st.dataframe(view.drop(columns=["_path"]), use_container_width=True, hide_index=True)
+    shown = view.drop(columns=["_path"]).rename(columns={
+        "report_id": "Report", "time (UTC)": "Time (UTC)", "decision": "Decision",
+        "attack_class": "Attack found", "confidence": "Confidence %", "true attack": "Attack simulated",
+        "qber %": "Error rate %"})
+    st.dataframe(shown, use_container_width=True, hide_index=True)
     if view.empty:
         return
     choice = st.selectbox("Open report", view["report_id"].tolist())
@@ -69,7 +75,6 @@ def render_forensics(st):
             tf = sh["top_features"][::-1]
             fig = go.Figure(go.Bar(x=[t["shap_value"] for t in tf], y=[t["feature"] for t in tf],
                                    orientation="h",
-                                   marker_color=["#d1495b" if t["shap_value"] > 0 else "#2b7bba" for t in tf]))
-            fig.update_layout(title=f"Top SHAP features ({sh.get('explained_class')})", height=280,
-                              margin=dict(l=10, r=10, t=40, b=10))
+                                   marker_color=[T.TEXT if t["shap_value"] > 0 else T.DIM for t in tf]))
+            fig.update_layout(title=f"Why the model chose {sh.get('explained_class')}", height=280)
             st.plotly_chart(fig, use_container_width=True)
